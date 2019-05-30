@@ -10,16 +10,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "conta")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Conta {
+public class Endereco {
 
 	@Id
 	@GeneratedValue
 	private UUID id;
-	private double saldo;
-	private String numeroConta;
-	private Agencia agencia;
+	private String cep;
+	private String rua;
+	private String bairro;
+	private String cidade;
+	private int numero;
 }

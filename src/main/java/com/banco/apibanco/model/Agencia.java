@@ -10,16 +10,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "conta")
+@Entity(name = "agencia")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Conta {
+public class Agencia {
 
 	@Id
 	@GeneratedValue
 	private UUID id;
-	private double saldo;
-	private String numeroConta;
-	private Agencia agencia;
+	private String numAgencia;
+	private Endereco endereco;
+
 }

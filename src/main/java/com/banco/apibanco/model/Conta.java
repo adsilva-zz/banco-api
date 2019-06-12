@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,5 +23,10 @@ public class Conta {
 	private UUID id;
 	private double saldo;
 	private String numeroConta;
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	@ManyToOne
+	@JoinColumn(name = "agencia_id")
 	private Agencia agencia;
 }

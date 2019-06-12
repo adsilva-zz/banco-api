@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +27,9 @@ public class Cliente {
 	private String nome;
 	private String cpf;
 	private String rg;
+	@OneToOne
+	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
-	@OneToMany
-	@JoinColumn(name = "id")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente")
 	private List<Conta> listaContas;
 }

@@ -30,6 +30,6 @@ public class Cliente {
 	@OneToOne
 	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
 	private List<Conta> listaContas;
 }

@@ -24,8 +24,4 @@ public class Endereco {
 	private String bairro;
 	private String cidade;
 	private int numero;
-//	@OneToOne(mappedBy = "endereco")
-//	private Cliente cliente;
-//	@OneToOne(mappedBy = "endereco")
-//	private Agencia agencia;
 }

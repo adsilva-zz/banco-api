@@ -1,5 +1,6 @@
 package com.banco.apibanco.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.banco.apibanco.dto.EnderecoDTO;
+import com.banco.apibanco.dto.requisicoes.EnderecoDTO;
+import com.banco.apibanco.dto.respostas.EnderecosResponse;
 import com.banco.apibanco.model.Endereco;
 import com.banco.apibanco.servico.EnderecoServico;
 
@@ -28,17 +31,23 @@ public class EnderecoController {
 	@PostMapping
 	public ResponseEntity<Endereco> cadastrarEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) {
 		enderecoServico.cadastrarEndereco(enderecoDTO);
-		return new ResponseEntity<Endereco>(HttpStatus.CREATED);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand("banco/v1/endereco/{id}", null)
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Endereco>> listarEndereco() {
-		List<Endereco> enderecos = enderecoServico.listarEndereco();
+	public ResponseEntity<List<EnderecosResponse>> listarEndereco() {
+		List<EnderecosResponse> enderecos = enderecoServico.listarEndereco();
 		if (ObjectUtils.isEmpty(enderecos)) {
-			return new ResponseEntity<List<Endereco>>(HttpStatus.NO_CONTENT);
+			return ResponseEntity.noContent().build();
 		}
-		return new ResponseEntity<List<Endereco>>(enderecos, HttpStatus.OK);
+		return ResponseEntity.ok().body(enderecos);
 	}
 
-	
+	@GetMapping
+	public ResponseEntity<Endereco> buscarEndereco() {
+
+		Endereco endereco = enderecoServico.buscarEndereco(idEndereco);
+	}
 }

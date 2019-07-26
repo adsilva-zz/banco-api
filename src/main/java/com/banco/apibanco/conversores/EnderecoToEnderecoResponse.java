@@ -3,15 +3,15 @@ package com.banco.apibanco.conversores;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.banco.apibanco.dto.requisicoes.EnderecoDTO;
+import com.banco.apibanco.dto.respostas.EnderecosResponse;
 import com.banco.apibanco.model.Endereco;
 
 @Component
-public class EnderecoDtoToEndereco implements Converter<EnderecoDTO, Endereco> {
+public class EnderecoToEnderecoResponse implements Converter<Endereco, EnderecosResponse> {
 
 	@Override
-	public Endereco convert(EnderecoDTO source) {
-		Endereco endereco = Endereco.builder().cep(source.getCep()).bairro(source.getBairro())
+	public EnderecosResponse convert(Endereco source) {
+		EnderecosResponse endereco = EnderecosResponse.builder().cep(source.getCep()).bairro(source.getBairro())
 				.cidade(source.getCidade()).rua(source.getRua()).numero(source.getNumero()).build();
 
 		return endereco;

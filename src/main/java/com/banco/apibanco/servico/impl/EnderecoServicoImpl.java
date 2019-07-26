@@ -2,13 +2,15 @@ package com.banco.apibanco.servico.impl;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.banco.apibanco.dto.EnderecoDTO;
+import com.banco.apibanco.dto.requisicoes.EnderecoDTO;
+import com.banco.apibanco.dto.respostas.EnderecosResponse;
 import com.banco.apibanco.model.Endereco;
 import com.banco.apibanco.repositorio.EnderecoRepositorio;
 import com.banco.apibanco.servico.EnderecoServico;
@@ -28,8 +30,11 @@ public class EnderecoServicoImpl implements EnderecoServico {
 	}
 
 	@Override
-	public List<Endereco> listarEndereco() {
-		return enderecoRepositorio.findAll();
+	public List<EnderecosResponse> listarEndereco() {
+		return enderecoRepositorio.findAll()
+				.stream()
+				.map(end -> conversionService.convert(end, EnderecosResponse.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.banco.apibanco.dto.respostas.EnderecosResponse;
 import com.banco.apibanco.model.Endereco;
 import com.banco.apibanco.repositorio.EnderecoRepositorio;
 import com.banco.apibanco.servico.EnderecoServico;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,10 @@ public class EnderecoServicoImpl implements EnderecoServico {
 
     @Override
     public Endereco cadastrarEndereco(EnderecoDTO enderecoDTO) {
-        return enderecoRepositorio.save(conversionService.convert(enderecoDTO, Endereco.class));
+
+        Endereco endereco = enderecoRepositorio.save(conversionService.convert(enderecoDTO, Endereco.class));
+
+        return endereco;
     }
 
     @Override
@@ -47,20 +51,19 @@ public class EnderecoServicoImpl implements EnderecoServico {
 
     @Override
     public boolean deletarEndereco(UUID idEndereco) {
-        //enderecoRepositorio.delete(buscarEndereco(idEndereco));
+        enderecoRepositorio.delete(buscarEndereco(idEndereco).get());
         return true;
     }
 
     @Override
     public Endereco atualizarEndereco(Endereco novoEndereco, UUID idEndereco) {
-        //Endereco endereco = buscarEndereco(idEndereco);
-        //if (ObjectUtils.isEmpty(endereco)) {
-        //	return null; // lançar exception
-        //}
-        //endereco = Endereco.builder().bairro(novoEndereco.getBairro()).cep(novoEndereco.getCep())
-        //		.cidade(novoEndereco.getCidade()).numero(novoEndereco.getNumero()).rua(novoEndereco.getRua()).build();
-        return null;
-        //return enderecoRepositorio.save(endereco);
+        Endereco endereco = buscarEndereco(idEndereco).get();
+        if (ObjectUtils.isEmpty(endereco)) {
+        	return null; // lançar exception
+        }
+        endereco = Endereco.builder().bairro(novoEndereco.getBairro()).cep(novoEndereco.getCep())
+        		.cidade(novoEndereco.getCidade()).numero(novoEndereco.getNumero()).rua(novoEndereco.getRua()).build();
+        return enderecoRepositorio.save(endereco);
     }
 
 }

@@ -25,10 +25,10 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<Endereco> cadastrarEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) {
-        enderecoServico.cadastrarEndereco(enderecoDTO);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand("banco/v1/endereco/{id}", null)
-                .toUri();
-        return ResponseEntity.created(uri).build();
+        Endereco endereco = enderecoServico.cadastrarEndereco(enderecoDTO);
+        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("banco/v1/endereco/{id}").buildAndExpand(endereco.getId()).toUri();
+        return ResponseEntity.created(uri).body(endereco);
+
     }
 
     @GetMapping
@@ -46,5 +46,13 @@ public class EnderecoController {
         if (!endereco.isPresent())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(endereco.get());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Endereco> deletarEndereco(@PathVariable(value = "id") String idEndereco){
+        if (enderecoServico.deletarEndereco(UUID.fromString(idEndereco))){
+            return null;
+        }
+        return null;
     }
 }
